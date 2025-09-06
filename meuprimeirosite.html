@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> Test1 • Aprendendo HTML & JS</title>
+  <meta name="description" content="Projeto simples para aprender HTML, CSS e JavaScript." />
+
+  <!--
+    COMO USAR ESTE ARQUIVO
+    1) Salve como index.html e abra no navegador (clique duas vezes).
+    2) Edite os textos, cores e blocos marcados com TODO.
+    3) Use este arquivo como laboratório: quebre, teste, experimente :)
+
+    DICAS RÁPIDAS
+    - HTML: estrutura e conteúdo (tags como <header>, <main>, <section>, <button>).  
+    - CSS: aparência (cores, tamanhos). Veja o bloco <style>.  
+    - JS: comportamento (clicar, contar, trocar tema). Veja o bloco <script>.
+  -->
+
+  <style>
+    /* ======================
+       TEMA E VARIÁVEIS CSS
+       Troque as cores abaixo p/ mudar o tema do site
+       ====================== */
+    :root {
+      --bg: #030303;          /* fundo geral */
+      --bg-soft: #111827;     /* blocos/cards */
+      --text: #e100ff;        /* texto principal */
+      --muted: #9ca3af;       /* texto secundário */
+      --brand: #00eeff;       /* cor de destaque */
+      --brand-2: #34d399;     /* cor de destaque 2 */
+      --radius: 16px;         /* cantos arredondados */
+      --shadow: 0 8px 30px rgba(0,0,0,.25);
+      --maxw: 1100px;         /* largura máxima do conteúdo */
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+            Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1000px 600px at 80% -10%, rgba(96,165,250,.15), transparent),
+                  radial-gradient(800px 500px at -20% 10%, rgba(52,211,153,.12), transparent),
+                  var(--bg);
+      color: var(--text);
+    }
+
+    /* Layout base */
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 24px; }
+    header.site { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px); background: rgba(17,24,39,.65); border-bottom: 1px solid rgba(255,255,255,.06); }
+    header .row { display: flex; align-items: center; gap: 16px; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .3px; }
+    .brand .logo { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
+    nav a { color: var(--muted); text-decoration: none; font-weight: 600; margin: 0 8px; padding: 10px 12px; border-radius: 10px; }
+    nav a:hover, nav a.active { background: rgba(255,255,255,.06); color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 40px 0 20px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 12px; }
+    .hero p { color: var(--muted); margin: 0 0 18px; }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { border: 0; background: var(--brand); color: #0b1220; padding: 12px 16px; border-radius: 999px; font-weight: 800; cursor: pointer; box-shadow: var(--shadow); }
+    .btn.secondary { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.15); }
+
+    /* Cards de exemplo */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 26px 0; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.08); padding: 18px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    /* Área de prática (Playground) */
+    .play { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 30px 0 50px; }
+    .panel { background: var(--bg-soft); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .panel h2 { margin: 0 0 12px; font-size: 20px; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    input[type="text"], textarea { width: 100%; background: rgba(255,255,255,.06); color: var(--text); border: 1px solid rgba(255,255,255,.12); padding: 10px 12px; border-radius: 10px; outline: none; }
+    textarea { min-height: 80px; resize: vertical; }
+    .list { display: grid; gap: 8px; margin-top: 12px; }
+    .item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; }
+    .item small { color: var(--muted); }
+
+    /* Rodapé */
+    footer { border-top: 1px solid rgba(255,255,255,.08); padding: 26px 0 60px; color: var(--muted); text-align: center; }
+
+    /* Responsivo extra */
+    @media (min-width: 860px) {
+      .play { grid-template-columns: 1.1fr .9fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- CABEÇALHO/NAVBAR -->
+  <header class="site">
+    <div class="wrap row">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>BLOCO DEV</span>
+      </div>
+      <nav>
+        <a href="#inicio" class="active">Início</a>
+        <a href="#Digitar">Digitar</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO / APRESENTAÇÃO -->
+  <main id="inicio" class="wrap">
+    <section class="hero">
+      <h1>Comece aqui: Guarde seus segredos e suas historias.</h1>
+      <p>
+        Esse site e para voce guardar suas anotaçoes.
+        coloque seus textos, Guardando para nao o esquecer
+      </p>
+      <div class="actions">
+        <button class="btn" id="btnContador">Cliques <span id="contador"></span></button>
+        <button class="btn secondary" id="btnTema">Trocar tema</button>
+        <a class="btn secondary" href="#Digitar">Ir para o Playground</a>
+      </div>
+    </section>
+
+    <!-- CARDS DE EXEMPLO -->
+    <section class="grid" aria-label="Exemplos de seções">
+      <article class="card">
+        <h3>Degredos</h3>
+        <p>Aqui voce podera guardar seus segredos mais profundo sem nimguem velos</code>.</p>
+      </article>
+      <article class="card">
+        <h3>Programadores</h3>
+        <p>Otimo lugares para programadores guardar seus trabalhos sem deixa eles sumires.</p>
+      </article>
+      <article class="card">
+        <h3>Duvidas</h3>
+        <p>Guarda suas duvidas e vem voce mesmo respondendo ate aprende-los.</p>
+      </article>
+      <article class="card">
+        <h3>Oque somos</h3>
+        <p><strong>AGENDA:</strong> Estamos aqui para o deixar comfortavel em deixar seus segredos e ajuda-lo a se organizar.</p>
+      </article>
+    </section>
+
+    <!-- PLAYGROUND DE PRÁTICA -->
+    <section id="praticar" class="play" aria-label="Playground de prática">
+      <!-- Painel 1: Lista de Tarefas simples -->
+      <div class="panel">
+        <h2>Sua agenda virtual</h2>
+        <div class="row">
+          <input id="inputTodo" type="text" placeholder="Faça uma anotaçao e aperte Enter…" />
+          <button class="btn" id="btnAdd">Adicionar</button>
+        </div>
+        <div class="list" id="todoList" aria-live="polite"></div>
+        <small>Dica: remova um item clicando nele.</small>
+      </div>
+
+      <!-- Painel 2: Formulário e preview -->
+      <div class="panel">
+        <h2>Seção "Duvidas" (em test)</h2>
+        <label>
+          Digite sua duvida:
+          <input id="sobreTitulo" type="text" placeholder="Ex: tenho duvida em como programar ..." />
+        </label>
+        <label>
+          Descrição:
+          <textarea id="sobreDesc" placeholder="Escreva depois de aprender o basico da programaçao de como programar."></textarea>
+        </label>
+        <div class="card" id="sobrePreview">
+          <h3>(Sua duvida aparecerá aqui)</h3>
+          <p>(E sua resposta aqui)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE -->
+    <section id="sobre" class="grid" aria-label="Sobre o projeto">
+      <article class="card">
+        <h3>Sobre este projeto</h3>
+        <p>
+          Você está vendo um projeto para ajudar principalmente os programadores a guardar seus trabalhos
+      </article>
+      <article class="card">
+        <h3>Próximos passos do nosso projeto</h3>
+        <ul>
+          <li>Adicionar mais servisos ao site.</li>
+          <li>Adicionar conteudos para voce se sentir avontade:
+          <li>Levar o site ao ar online como top 1 bloco dev</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    Feito pelo victor. Atualizado em <span id="dataHoje"></span>.
+  </footer>
+
+  <script>
+    // ======================
+    // JAVASCRIPT BÁSICO
+    // ======================
+
+    // Util: pega elementos
+    const $ = (sel) => document.querySelector(sel);
+
+    // 1) Contador de cliques
+    let clicks = 0;
+    const btnContador = $('#btnContador');
+    const spanContador = $('#contador');
+    btnContador.addEventListener('click', () => {
+      clicks++;
+      spanContador.textContent = clicks;
+    });
+
+    // 2) Troca de tema (claro/escuro simples)
+    const btnTema = $('#btnTema');
+    let claro = false;
+    btnTema.addEventListener('click', () => {
+      claro = !claro;
+      if (claro) {
+        document.documentElement.style.setProperty('--bg', '#f7fafc');
+        document.documentElement.style.setProperty('--bg-soft', '#ffffff');
+        document.documentElement.style.setProperty('--text', '#0b1220');
+        document.documentElement.style.setProperty('--muted', '#475569');
+      } else {
+        document.documentElement.style.setProperty('--bg', '#0f172a');
+        document.documentElement.style.setProperty('--bg-soft', '#111827');
+        document.documentElement.style.setProperty('--text', '#e5e7eb');
+        document.documentElement.style.setProperty('--muted', '#9ca3af');
+      }
+    });
+
+    // 3) To‑do: adicionar e remover itens
+    const inputTodo = $('#inputTodo');
+    const btnAdd = $('#btnAdd');
+    const todoList = $('#todoList');
+
+    function addTodo(texto) {
+      if (!texto) return;
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `<span>${texto}</span><small>clique para remover</small>`;
+      div.addEventListener('click', () => div.remove());
+      todoList.prepend(div);
+    }
+
+    btnAdd.addEventListener('click', () => addTodo(inputTodo.value.trim()));
+    inputTodo.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addTodo(inputTodo.value.trim());
+    });
+
+    // 4) Live preview – seção Sobre mim
+    const sobreTitulo = $('#sobreTitulo');
+    const sobreDesc = $('#sobreDesc');
+    const sobrePreview = $('#sobrePreview');
+
+    function updateSobre() {
+      const h3 = sobrePreview.querySelector('h3');
+      const p = sobrePreview.querySelector('p');
+      h3.textContent = sobreTitulo.value || '(Seu título aparecerá aqui)';
+      p.textContent = sobreDesc.value || '(E sua descrição aqui)';
+    }
+
+    sobreTitulo.addEventListener('input', updateSobre);
+    sobreDesc.addEventListener('input', updateSobre);
+
+    // 5) Data automática no rodapé
+    const dataHoje = new Date().toLocaleDateString('pt-BR');
+    document.getElementById('dataHoje').textContent = dataHoje;
+
+    // 6) Pequena melhoria: limpar input após adicionar
+    function limparInput() { inputTodo.value = ''; inputTodo.focus(); }
+    btnAdd.addEventListener('click', limparInput);
+    inputTodo.addEventListener('keydown', (e) => { if (e.key === 'Enter') limparInput(); });
+  </script>
+</body>
+</html>
